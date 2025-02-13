@@ -1,0 +1,8 @@
+.dparent{
+    display: flex;
+    flex-direction: column;
+}
+.custom-spotlight-card {
+    background-color: #000;
+
+}

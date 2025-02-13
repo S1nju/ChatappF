@@ -1,0 +1,154 @@
+.allparent{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+ height: 100vh;
+}
+.lphoto{
+
+    background-image: url('./bqck.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.registerformparent{
+    margin:30px;
+    padding: 30px;
+    display:flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+.registerformparent input{
+  height: 40px;
+  padding: 0 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-family: 'Rubik', sans-serif;
+  outline: 0;
+
+  transition: .2s;
+  display: inline;
+
+
+}
+.err{
+    width: 70%;
+    background-color: #E4A6A7;
+    padding: 15px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+
+
+.registerformparent input:focus{
+ box-shadow: none;
+
+
+  }
+
+.registerformparent input:focus:valid{
+    border-color: rgb(0, 169, 0);
+
+
+  }
+  .registerformparent input:focus:not(:valid){
+    border-color: red;
+
+
+  }
+
+
+.registerformparent h2{
+    color: #29a5f7;
+    font-size:40px;
+    text-align: center;
+
+
+
+}
+
+.formbutton{
+    padding: 12px 10px;
+    border: 0;
+    background:#0097ff;
+    border-radius: 3px;
+    margin-top: 10px;
+    color: #fff;
+    letter-spacing: 1px;
+
+    width: 100%;
+    transition: 0.2s;
+    cursor: pointer;
+}
+.formbutton:hover{
+
+    background:#29a5f7;
+
+
+
+}
+.textw{
+    margin:0;
+    padding: 0 20px;
+    font-weight: 300;
+    color: grey;
+    font-size: 0.8rem;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
+
+    .allparent{
+        display: grid;
+        grid-template-columns: 1fr;
+     height: 100vh;
+     background-image: url('./bqck.jpg');
+    background-size: cover;
+    background-position: center;
+    }
+    .lphoto{
+display: none;
+    }
+    .registerformparent{
+        background-color: #fff;
+        box-shadow:
+        0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+        0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+        0 12.5px 10px rgba(0, 0, 0, 0.06),
+        0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+        0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+        0 100px 80px rgba(0, 0, 0, 0.12);
+
+    }
+}
+.image404{
+
+    background-image: url('./BWWG.webp');
+    background-size: cover;
+    background-position: center;
+    width: 250px;
+    height: 250px;
+}
+.image403{
+
+    background-image: url('./sobs.png');
+    background-size: cover;
+    background-position: center;
+    width: 250px;
+
+    height: 250px;
+}
+.parent404{
+
+    display: flex;
+    flex-flow: column nowrap;
+
+    align-items: center;
+    height: 100vh;
+    padding: 50px;
+    width: 100%;
+}

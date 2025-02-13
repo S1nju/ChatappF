@@ -1,0 +1,56 @@
+
+
+
+.app {
+ display: flex;
+ flex-direction: column;
+
+}
+.custom-spotlight-card{
+  background-color: royalblue;
+}
+.table{
+  background-color: transparent;
+}
+ .tabletitle{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight:300;
+  border-radius: 10px 10px 0px 0px;
+  font-size: 12px;
+  margin: 0;
+ }
+ .handle{
+  justify-self: center;
+ }
+ .tablecontent{
+  display: flex;
+ justify-content: space-between;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin: 0;
+  
+  flex-direction: row;
+  align-items: center;
+  font-size:xx-small;
+
+ }
+ .content{
+  display: flex;
+ 
+  flex-direction: row-reverse;
+ }
+ .navedit{
+  display: flex;
+  flex-direction: column;
+width: auto;
+  padding: 10px;
+  gap: 30px;
+ }
+
+ .react-flow__panel{
+  display: none;
+ }
