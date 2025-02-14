@@ -121,6 +121,7 @@ setChatMessages(prev=>[...prev, chatMsg])
             display: 'flex',
             justifyContent: item.senderid !== name ? 'start' : 'end',
             margin: '10px',
+            marginRight:"10px",
             width: '100%',
           }}>
             <div style={{
@@ -145,6 +146,7 @@ setChatMessages(prev=>[...prev, chatMsg])
           onChange={(e) => setMessage(e.target.value)}
           variant="filled"
           sx={{ width: '90%' }}
+          inputProps={{ maxLength: 50 }}
         />
         <Button variant="outlined" onClick={handleMessageSend} sx={{ height: '100%' }}>
           Send
