@@ -88,6 +88,10 @@ export default function Dashboard(){
       const demoTheme = extendTheme({
         colorSchemes: { light: true, dark: true },
         colorSchemeSelector: 'class',
+          palette: {
+    secondary: {
+      main: '#493D9E', // Your secondary color
+    }},
         breakpoints: {
           values: {
             xs: 0,
