@@ -73,7 +73,7 @@ try {
 
 
 return(<div className="allparent">
-
+<div className="lphoto"></div>
 
     <div className="registerformparent">
     {errtxt!==''&&     <Alert show={show} style={{position:'absolute',bottom:'25px'}} key={'danger'} variant={'danger'}>
@@ -121,7 +121,7 @@ return(<div className="allparent">
 <p>Or you are new with us <Link to='/signup' ><b>Register</b></Link></p>
 
 </div>
-<div className="lphoto"></div>
+
 </div>)
 
 

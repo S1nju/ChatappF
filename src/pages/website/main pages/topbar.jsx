@@ -8,7 +8,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Brightness7Icon from '@mui/icons-material/Brightness7'; // Sun Icon (Light Mode)
 import Brightness4Icon from '@mui/icons-material/Brightness4'; // Moon Icon (Dark Mode)
-
+import ChatIcon from '@mui/icons-material/Chat';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -88,12 +88,13 @@ async function hlogout(){
      sx={{
       zIndex:70,
        width: '100%',
-       overflowX: 'hidden', // Prevent horizontal overflow
+       overflowX: 'hidden', 
+       backgroundColor:darklight?'':'#493D9E'// Prevent horizontal overflow
      }}>
       <Container maxWidth="xl">
  
         <Toolbar disableGutters>
-        <StorageIcon sx={{ display: { md: 'flex', xs: 'none' }, mr: 1 }} /> 
+        <ChatIcon sx={{ display: { md: 'flex', xs: 'none' }, mr: 1 }} /> 
           <Typography
             variant="h6"
             noWrap
@@ -109,7 +110,7 @@ async function hlogout(){
               textDecoration: 'none',
             }}
           >
-           ERD
+           ChatApp
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -224,12 +225,12 @@ async function hlogout(){
               
               <NavLink to={"/signup"} style={{textDecoration:"none", color:"black"}}> 
               
-                <Button variant="contained" sx={{backgroundColor:"white",color:"royalblue"}} >Register 
+                <Button variant="contained" sx={{backgroundColor:"white",color:"black"}} >Register 
                   
                   </Button></NavLink>
                   <NavLink to={"/login"} style={{textDecoration:"none", color:"black"}}> 
               
-              <Button variant="contained" sx={{backgroundColor:"blue",color:"white"}} >Login 
+              <Button variant="contained" sx={{backgroundColor:darklight?'#B2A5FF':'#493D9E',color:"white"}} >Login 
                 
                 </Button></NavLink></div>}
            

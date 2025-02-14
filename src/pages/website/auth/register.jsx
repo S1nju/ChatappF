@@ -71,7 +71,7 @@ try {
  
 return(
 <div className="allparent">
-
+<div className="lphoto"></div>
 <div className="registerformparent">
 
 {errtxt!==''&&     <Alert show={show} style={{position:'absolute',bottom:'25px'}} key={'danger'} variant={'danger'}>
@@ -79,7 +79,7 @@ return(
        <i className="fa-solid fa-xmark"></i>
           </Button>  </Alert>}
 
-<h2>Welcome to ERTODB</h2>
+<h2>Welcome</h2>
 <p className="textw">Register and join us Its easy!</p>
 <hr></hr>
 <hr></hr>
@@ -121,7 +121,7 @@ return(
 <p>Or you  already have an account <Link to='/login'><b>Login</b></Link></p>
 </div>
 
-<div className="lphoto"></div>
+
 </div>)
 
 

@@ -1,16 +1,17 @@
 .allparent{
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 2fr 1fr;
  height: 100vh;
 }
 .lphoto{
 
-    background-image: url('./bqck.jpg');
+    background-image: url('./background.jpg');
     background-size: cover;
+    background-repeat: no-repeat;
     background-position: center;
 }
 .registerformparent{
-    margin:30px;
+  
     padding: 30px;
     display:flex;
     flex-flow: column nowrap;
@@ -63,7 +64,7 @@
 
 
 .registerformparent h2{
-    color: #29a5f7;
+    color: #493D9E;
     font-size:40px;
     text-align: center;
 
@@ -74,7 +75,7 @@
 .formbutton{
     padding: 12px 10px;
     border: 0;
-    background:#0097ff;
+    background:#493D9E;
     border-radius: 3px;
     margin-top: 10px;
     color: #fff;
@@ -86,7 +87,7 @@
 }
 .formbutton:hover{
 
-    background:#29a5f7;
+    background:#B2A5FF;
 
 
 
@@ -113,8 +114,9 @@
     .lphoto{
 display: none;
     }
+
     .registerformparent{
-        background-color: #fff;
+        background-color:#fff ;
         box-shadow:
         0 2.8px 2.2px rgba(0, 0, 0, 0.034),
         0 6.7px 5.3px rgba(0, 0, 0, 0.048),
@@ -125,6 +127,19 @@ display: none;
 
     }
 }
+@media (prefers-color-scheme: dark) {
+    .registerformparent{
+        background-color: #111 ;
+        box-shadow:
+        0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+        0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+        0 12.5px 10px rgba(0, 0, 0, 0.06),
+        0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+        0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+        0 100px 80px rgba(0, 0, 0, 0.12);
+
+    }
+  }
 .image404{
 
     background-image: url('./BWWG.webp');
@@ -146,7 +161,6 @@ display: none;
 
     display: flex;
     flex-flow: column nowrap;
-
     align-items: center;
     height: 100vh;
     padding: 50px;
