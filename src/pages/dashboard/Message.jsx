@@ -1,12 +1,13 @@
 import { Avatar, Button, TextField } from '@mui/material';
 import axios from 'axios';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import Cookie from 'cookie-universal';
 import { useParams } from 'react-router-dom';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import { Axios } from '../../api/axios';
 import { user } from '../../api/api';
+import { menu } from '../../contex/hamburger';
 
 export default function Message() {
   const cookie = Cookie();
@@ -16,7 +17,8 @@ export default function Message() {
   const [chatMessages, setChatMessages] = useState([]);
   const [stompClient, setStompClient] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-  
+
+  let {darklight,setdark}=useContext(menu);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -125,7 +127,7 @@ setChatMessages(prev=>[...prev, chatMsg])
             width: '100%',
           }}>
             <div style={{
-              backgroundColor: item.senderid !== name ? 'royalblue' : 'blue',
+              backgroundColor: item.senderid !== name ? '#B2A5FF':'#493D9E',
               padding: '10px 10px 0px 10px',
               borderRadius: '50px',
               display: 'flex',
@@ -147,9 +149,10 @@ setChatMessages(prev=>[...prev, chatMsg])
           onChange={(e) => setMessage(e.target.value)}
           variant="filled"
           sx={{ width: '90%' }}
-          inputProps={{ maxLength: 50 }}
+            color="secondary"
+          inputProps={{ maxLength: 30 }}
         />
-        <Button variant="outlined" onClick={handleMessageSend} sx={{ height: '100%' }}>
+        <Button variant="outlined" onClick={handleMessageSend}   color="secondary" sx={{ height: '100%' }}>
           Send
         </Button>
       </div>
