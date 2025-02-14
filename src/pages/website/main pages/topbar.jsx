@@ -147,7 +147,7 @@ async function hlogout(){
               ))}
             </Menu>
           </Box>
-          <StorageIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <ChatIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -164,7 +164,7 @@ async function hlogout(){
               textDecoration: 'none',
             }}
           >
-         ERTODB
+         CHATAPP
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
