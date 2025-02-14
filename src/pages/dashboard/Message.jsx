@@ -121,7 +121,7 @@ setChatMessages(prev=>[...prev, chatMsg])
             display: 'flex',
             justifyContent: item.senderid !== name ? 'start' : 'end',
             margin: '10px',
-            marginRight:"10px",
+            
             width: '100%',
           }}>
             <div style={{
@@ -130,6 +130,7 @@ setChatMessages(prev=>[...prev, chatMsg])
               borderRadius: '50px',
               display: 'flex',
               alignItems: 'center',
+              marginRight:"15px",
               justifyContent: 'center',
             }}>
               <p>{item.content}</p>

@@ -115,6 +115,9 @@ export default function Dashboard(){
           }}
         theme={demoTheme}
         className="dparent"
+        style={{
+          overflowX:"hidden"
+        }}
        
       >
         <DashboardLayout>
