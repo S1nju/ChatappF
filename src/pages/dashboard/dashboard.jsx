@@ -33,7 +33,7 @@ export default function Dashboard(){
           async function findandDisplayAllConnectedUsers(token,name){
      
             try {
-              const response = await axios.get('http://localhost:8080/online',{ headers:{
+              const response = await axios.get('https://chatappb-xxt1.onrender.com/online',{ headers:{
                 Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
               }});
              let arr=[]

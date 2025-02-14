@@ -28,7 +28,7 @@ export default function Message() {
   useEffect(() => {
     if (!userInfo?.name) return;
 
-    const socket = new SockJS('http://localhost:8080/ws');
+    const socket = new SockJS('https://chatappb-xxt1.onrender.com/ws');
     const stomp = new Client({
       webSocketFactory: () => socket,
       onConnect: () => {
@@ -70,7 +70,7 @@ export default function Message() {
 
     const fetchChats = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/messages/${name}/${targetname}`, {
+        const response = await axios.get(`https://chatappb-xxt1.onrender.com/messages/${name}/${targetname}`, {
           headers: { Authorization: `Bearer ${cookie.get('token')}` },
         });
         setChatMessages(response.data);

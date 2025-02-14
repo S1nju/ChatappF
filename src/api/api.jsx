@@ -1,4 +1,4 @@
-export const baseurl = 'http://localhost:8080/api';
+export const baseurl = 'https://chatappb-xxt1.onrender.com/api';
 export const register = 'register';
 export const login = 'login';
 
