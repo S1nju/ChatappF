@@ -50,7 +50,7 @@ export default function Profile() {
         backgroundPosition:"center",
         backgroundRepeat:"no-repeat",
         width:"100%",
-        minHeight:"20%",
+        minHeight:"17%",
         marginBottom:"30px"
     }}>
 
