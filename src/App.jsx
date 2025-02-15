@@ -18,6 +18,7 @@ import { menu } from "./contex/hamburger";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import Message from "./pages/dashboard/Message";
 import { user } from "./api/api";
+import Profile from "./pages/dashboard/Profile";
 
 
 
@@ -92,7 +93,15 @@ function App() {
 <Err403></Err403>}></Route>
 <Route element={<Rauth allowedRole={['USER','ADMIN']}></Rauth>}>
 <Route path={`${u.name}/:targetname`} element={
-<Message></Message>}></Route>
+<Message></Message>}>
+
+
+</Route>
+<Route path={`profile/settings`} element={
+<Profile></Profile>}>
+
+
+</Route>
 
 </Route>
 

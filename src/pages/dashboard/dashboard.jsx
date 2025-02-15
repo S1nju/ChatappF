@@ -30,13 +30,9 @@ export default function Dashboard(){
     
 
 let{client}=useWebSocket(`/user/topic`,handleMessagerecived)
-      const  [NAVIGATION,setNav] = useState([ {
-        segment: '',
-        title: 'Messages',
-        icon: <ChatIcon />,
-      },
+      const  [NAVIGATION,setNav] = useState([ 
       {
-        segment: '/',
+        segment: '',
         title: 'Home',
         icon: <HolidayVillageIcon />,
       },
@@ -203,17 +199,17 @@ let{client}=useWebSocket(`/user/topic`,handleMessagerecived)
                       height:"100%"
                   }}
                   ><Loading ></Loading></div>: <List sx={{ mb: 2 }}>
-           <ListItemButton
+            <Link to={`profile/settings`} style={{textDecoration:"none"}}>       <ListItemButton
            
            >
                 <ListItemAvatar>
                 <Badge color="success" variant="dot">
-                <Avatar alt={u.name}  />
+                    <Avatar alt={u.name}  />
 </Badge>
                   
                 </ListItemAvatar>
                 <ListItemText primary={u.name} secondary={'Click to open  Settings'} />
-              </ListItemButton>
+              </ListItemButton></Link> 
      
            <hr ></hr>
         
@@ -262,6 +258,17 @@ let{client}=useWebSocket(`/user/topic`,handleMessagerecived)
                     height:"100%"
                 }}
                 ><Loading ></Loading></div>: <List sx={{ mb: 2 }}>
+                             <Link to={`profile/settings`} style={{textDecoration:"none"}}>       <ListItemButton
+           
+           >
+                <ListItemAvatar>
+                <Badge color="success" variant="dot">
+                    <Avatar alt={u.name}  />
+</Badge>
+                  
+                </ListItemAvatar>
+      
+              </ListItemButton></Link> 
           {messages.map(({ id, primary, secondary, person },i) => (
             <React.Fragment key={i}>
             <Link to={`${u.name}/${person}`}>  <ListItemButton
@@ -283,21 +290,26 @@ let{client}=useWebSocket(`/user/topic`,handleMessagerecived)
     { window.location.pathname=='/'?<div style={{
       display:"flex",
       alignItems:"center",
+      flexFlow:"column wrap",
       justifyContent:"center",
       height:"100%",
       width:"100%",
-      padding:"25px"
+      gap:"25px",
+      padding:"25px",
+      textAlign:"center"
     }}>
 
-      <div style={{backgroundImage:`url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWx5bWY4cWw4Y2RiaWpuYWJndzIydmQyamRvbXViN2F4NWV5NWJtMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/oiBqxFYzZRhzDtEHcl/giphy.gif')`,
+      <div style={{backgroundImage:`url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb3EyOWk5cnV0ZGRuYnh3cnh2ZWR0MHp1YnZnY3Jwb2l0ODV3M2k4aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4fYKOetVn3BqMtwLM9/giphy.gif')`,
         backgroundRepeat:"no-repeat",
-        backgroundSize:"cover",
+        backgroundSize:"300%",
         backgroundPosition:"center",
-        height:"200px",width:"200px"
+        height:"90px",width:"90px"
       }}>
 
 
       </div>
+      <h3>Welcome To Chat</h3>
+      <p style={{color:"grey"}}>Search for a user from the sidebar to start chatting</p>
     </div>:  <Outlet></Outlet>}
        </div>
         </DashboardLayout>
