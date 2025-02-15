@@ -15,20 +15,19 @@ export default function Message() {
   const cookie = Cookie();
   const { targetname } = useParams();
   let name = window.location.pathname.split('/')[1]
-
+  let{client,isConnected}=useWebSocket(`/user/topic`,handleMessagerecived)
   const [loading,setloading]=useState(true);
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
-
-  const [userInfo, setUserInfo] = useState(null);
-
-  let {darklight,setdark}=useContext(menu);
   const messagesEndRef = useRef(null);
 
  function handleMessagerecived(msg){
-    setChatMessages((prev) => [...prev, msg]);
+
+    if(msg.senderid!=window.location.pathname.split('/')[2]){ return;}
+    else{
+    setChatMessages((prev) => [...prev, msg])};
   }
-let{client}=useWebSocket(`/user/topic`,handleMessagerecived)
+
 
   // Fetch chat history once when the component loads
   useEffect(() => {
@@ -40,6 +39,7 @@ let{client}=useWebSocket(`/user/topic`,handleMessagerecived)
           headers: { Authorization: `Bearer ${cookie.get('token')}` },
         });
         setChatMessages(response.data);
+       console.log(isConnected)
         setloading(false)
       } catch (error) {
         console.error('Error fetching chat history:', error);

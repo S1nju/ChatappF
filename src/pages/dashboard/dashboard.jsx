@@ -29,7 +29,7 @@ export default function Dashboard(){
     const [loading,setloading]=useState(true);
     
 
-let{client}=useWebSocket(`/user/topic`,handleMessagerecived)
+let{client}=useWebSocket(`/user/topic`,handleMessagerecived,2)
       const  [NAVIGATION,setNav] = useState([ 
       {
         segment: '',

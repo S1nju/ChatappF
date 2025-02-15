@@ -40,7 +40,10 @@ const useWebSocket = (topic, onMessageReceived) => {
 
       onConnect: () => {
         console.log("✅ Connected to WebSocket");
-        setIsConnected(true);
+        setIsConnected((prev) => {
+            return true;
+          });
+
 
         clientInstance.subscribe(`/user/${userInfo.name}/queue/messages`, (message) => {
           const msg = JSON.parse(message.body);
@@ -69,7 +72,8 @@ const useWebSocket = (topic, onMessageReceived) => {
     });
 
     clientInstance.activate();
-    clientRef.current = clientInstance; // ✅ Store instance in ref (prevents re-renders)
+    clientRef.current = clientInstance; 
+// ✅ Store instance in ref (prevents re-renders)
 
     return () => {
       console.log("🔴 Cleaning up WebSocket...");
@@ -77,6 +81,8 @@ const useWebSocket = (topic, onMessageReceived) => {
       clientRef.current = null;
     };
   }, [userInfo, topic]); // ✅ Only re-run when userInfo or topic changes
+  // ✅ Track isConnected changes
+// ✅ This will log when state updates
 
   return { client: clientRef.current, isConnected };
 };
