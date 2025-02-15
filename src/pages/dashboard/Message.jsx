@@ -10,6 +10,7 @@ import { user } from '../../api/api';
 import { menu } from '../../contex/hamburger';
 import SendIcon from '@mui/icons-material/Send';
 import Loading from '../loading/loading';
+import useWebSocket from './wsCustomhook';
 export default function Message() {
   const cookie = Cookie();
   const { targetname } = useParams();
@@ -18,66 +19,16 @@ export default function Message() {
   const [loading,setloading]=useState(true);
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
-  const [stompClient, setStompClient] = useState(null);
+
   const [userInfo, setUserInfo] = useState(null);
 
   let {darklight,setdark}=useContext(menu);
   const messagesEndRef = useRef(null);
-let status='';
-  useEffect(() => {
-    Axios.get('/auth/' + user)
-      .then((res) =>{ setUserInfo(res.data)
-       status= res.data.principal.user.status
-        
-      })
-      .catch((err) => console.error(err));
-  }, []);
 
-  useEffect(() => {
-    if (!userInfo?.name) return;
-
-    const socket = new SockJS('https://chatappb-xxt1.onrender.com/ws');
-    const stomp = new Client({
-      webSocketFactory: () => socket,
-      onConnect: () => {
-        console.log('Connected to STOMP broker');
-
-        stomp.subscribe(`/user/${userInfo.name}/queue/messages`, (message) => {
-          const msg = JSON.parse(message.body);
-          console.log('Received private message:', msg.content);
-          
-          setChatMessages((prev) => [...prev, msg]); // Update state directly
-        });
-
-        stomp.subscribe(`/user/topic`, (message) => {
-          console.log('Received public message:', message.body);
-        });
-
-        stomp.publish({
-          destination: 'app/user.addUser',
-          body: JSON.stringify(userInfo),
-        });
-     
-      },
-      onDisconnect: () => {console.log('Disconnected from STOMP broker')
-        stomp.publish({
-            destination: 'app/user.Dissconect',
-            body: JSON.stringify(userInfo),
-          });
-
-
-      },
-      onStompError: (frame) => console.error('STOMP error:', frame),
-    });
-
-    stomp.activate();
-    setStompClient(stomp);
-
-    return () => {
-      stomp.deactivate();
-    
-    };
-  }, [userInfo]);
+ function handleMessagerecived(msg){
+    setChatMessages((prev) => [...prev, msg]);
+  }
+let{client}=useWebSocket(`/user/topic`,handleMessagerecived)
 
   // Fetch chat history once when the component loads
   useEffect(() => {
@@ -100,7 +51,7 @@ let status='';
   }, [name, targetname]);
 
   const handleMessageSend = () => {
-    if (!message.trim() || !stompClient) return;
+    if (!message.trim() || !client) return;
 
     const chatMsg = {
       senderid: name,
@@ -109,7 +60,7 @@ let status='';
       timeStamp: new Date(),
     };
 setChatMessages(prev=>[...prev, chatMsg])
-    stompClient.publish({
+client.publish({
       destination: '/app/chat',
       body: JSON.stringify(chatMsg),
     });
