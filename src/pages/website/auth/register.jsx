@@ -78,9 +78,8 @@ return(
        <i className="fa-regular fa-circle-xmark"></i>  {errtxt}  <Button onClick={() => setshow(false)} variant="outline-sucsses">
        <i className="fa-solid fa-xmark"></i>
           </Button>  </Alert>}
-
-<h2>Welcome</h2>
-<p className="textw">Register and join us Its easy!</p>
+<h4>WELCOME</h4>
+<p className="textw">Create An account and start messaging</p>
 <hr></hr>
 <hr></hr>
 <Form onSubmit={submit}>
@@ -109,14 +108,6 @@ return(
     
     }}>{loading && <Loading></Loading>}Register</Button>
    <hr></hr>
-<Button onClick={()=>  setloading2(true)} style={{
-       
-       width:'100%'
-    }}><a style={{ display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
-    gap:'10%',textDecoration:'none',color:'white'}} href="http://127.0.0.1:8000/login-google">{(loading2)? <><Loading></Loading></>:<><i className="fa-brands fa-google-plus"></i></>}Sign up with google</a></Button>
-   
 </Form>
 <p>Or you  already have an account <Link to='/login'><b>Login</b></Link></p>
 </div>

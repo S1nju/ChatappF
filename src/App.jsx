@@ -17,6 +17,7 @@ import Cookie from 'cookie-universal'
 import { menu } from "./contex/hamburger";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import Message from "./pages/dashboard/Message";
+import { user } from "./api/api";
 
 
 
@@ -28,8 +29,19 @@ function App() {
  
         
   let {darklight,setdark} = useContext(menu);
+  const [ u,setu]=useState({})
 
+  useEffect(()=>{
+        
+        
+          Axios.get('/auth/'+user).then(d=>{
+             
 
+            setu(d.data);
+            console.log(d.data)
+
+            
+         })},[])
   const lightTheme = createTheme({
     palette: {
       mode: 'light',
@@ -79,7 +91,7 @@ function App() {
 <Route path="403" element={
 <Err403></Err403>}></Route>
 <Route element={<Rauth allowedRole={['USER','ADMIN']}></Rauth>}>
-<Route path=":name/:targetname" element={
+<Route path={`${u.name}/:targetname`} element={
 <Message></Message>}></Route>
 
 </Route>

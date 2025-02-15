@@ -82,7 +82,7 @@ return(<div className="allparent">
           </Button> </Alert>}
 
 
-<h2>Welcome Back</h2>
+<h4>Welcome Back</h4>
 <p className="textw">Log in  using email and password</p>
 <hr></hr>
 <hr></hr>
@@ -108,13 +108,6 @@ return(<div className="allparent">
 
     }}>{(loading)? <><Loading></Loading></>:<span>Login</span>}</Button>
     <hr></hr>
-    <Button onClick={()=>  setloading2(true)} style={{
-
-       width:'100%'
-    }}><a style={{ display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
-    gap:'10%',textDecoration:'none',color:'white'}} href="http://127.0.0.1:8000/login-google">{(loading2)? <><Loading></Loading></>:<><i className="fa-brands fa-google-plus"></i></>}Login with google</a></Button>
 
 
 </Form>

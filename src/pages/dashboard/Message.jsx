@@ -12,7 +12,9 @@ import SendIcon from '@mui/icons-material/Send';
 import Loading from '../loading/loading';
 export default function Message() {
   const cookie = Cookie();
-  const { name, targetname } = useParams();
+  const { targetname } = useParams();
+  let name = window.location.pathname.split('/')[1]
+
   const [loading,setloading]=useState(true);
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
@@ -58,7 +60,10 @@ let status='';
      
       },
       onDisconnect: () => {console.log('Disconnected from STOMP broker')
-         
+        stomp.publish({
+            destination: 'app/user.Dissconect',
+            body: JSON.stringify(userInfo),
+          });
 
 
       },
