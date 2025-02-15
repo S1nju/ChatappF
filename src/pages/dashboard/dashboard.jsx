@@ -245,7 +245,25 @@ export default function Dashboard(){
           ))}
         </List>}
         </Drawer>
-       <Outlet></Outlet>
+    { window.location.pathname=='/'?<div style={{
+      display:"flex",
+      alignItems:"center",
+      justifyContent:"center",
+      height:"100%",
+      width:"100%",
+      padding:"25px"
+    }}>
+
+      <div style={{backgroundImage:`url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWx5bWY4cWw4Y2RiaWpuYWJndzIydmQyamRvbXViN2F4NWV5NWJtMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/oiBqxFYzZRhzDtEHcl/giphy.gif')`,
+        backgroundRepeat:"no-repeat",
+        backgroundSize:"cover",
+        backgroundPosition:"center",
+        height:"200px",width:"200px"
+      }}>
+
+
+      </div>
+    </div>:  <Outlet></Outlet>}
        </div>
         </DashboardLayout>
       </AppProvider>)
