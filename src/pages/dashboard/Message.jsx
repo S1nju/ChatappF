@@ -21,10 +21,13 @@ export default function Message() {
 
   let {darklight,setdark}=useContext(menu);
   const messagesEndRef = useRef(null);
-
+let status='';
   useEffect(() => {
     Axios.get('/auth/' + user)
-      .then((res) => setUserInfo(res.data))
+      .then((res) =>{ setUserInfo(res.data)
+       status= res.data.principal.user.status
+        
+      })
       .catch((err) => console.error(err));
   }, []);
 
@@ -52,8 +55,13 @@ export default function Message() {
           destination: 'app/user.addUser',
           body: JSON.stringify(userInfo),
         });
+     
       },
-      onDisconnect: () => console.log('Disconnected from STOMP broker'),
+      onDisconnect: () => {console.log('Disconnected from STOMP broker')
+         
+
+
+      },
       onStompError: (frame) => console.error('STOMP error:', frame),
     });
 
@@ -61,7 +69,6 @@ export default function Message() {
     setStompClient(stomp);
 
     return () => {
-   
       stomp.deactivate();
     
     };
@@ -113,10 +120,14 @@ setChatMessages(prev=>[...prev, chatMsg])
   return (
     <div style={{ display: 'flex', flexFlow: 'column', padding: '10px 4px', height: '100%' ,overflowX: 'hidden',width:"100%"}}>
       <div style={{ display: 'flex', gap: '10px' }}>
-        <Avatar alt={targetname} src="/static/images/avatar/2.jpg" style={{width:"35px",height:"35px"}} />
+     
+      <Avatar alt={targetname} src="/static/images/avatar/2.jpg" style={{width:"35px",height:"35px"}} />
+
+              
+ 
         <div>
           <span>{targetname}</span>
-          <span style={{ color: 'grey', display: 'block', fontSize: '9px' }}>ONLINE</span>
+          <span style={{ color: 'grey', display: 'block', fontSize: '9px' }}>{"ONLINE"}</span>
         </div>
       </div>
       
