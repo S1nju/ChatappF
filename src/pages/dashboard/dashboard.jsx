@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import './dashboard.css'
 import React,{ useState,useEffect, useContext } from "react";
 import { Axios } from "../../api/axios";
@@ -12,76 +12,40 @@ import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import SplitText from '../../blocks/TextAnimations/SplitText/SplitText'
 import StorageIcon from '@mui/icons-material/Storage'; 
-import { Avatar, Button, Card, CardContent, Typography,CardActions } from "@mui/material";
+import { Avatar, Button, Card, CardContent, Typography,CardActions, Drawer, List, ListSubheader, ListItemButton, ListItemAvatar, ListItemText, Badge } from "@mui/material";
 import ChatIcon from '@mui/icons-material/Chat';
 import axios from "axios";
 import Cookie from 'cookie-universal'
+import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
+import { Padding } from "@mui/icons-material";
+import Loading from "../loading/loading";
 export default function Dashboard(){
     const [u,setu]=useState("");
     const cookie = Cookie()
 
-    const [graph,setgraphs]=useState("");
 
-      const  [NAVIGATION,setNav] = useState([
+    const [Selected,setSelected]=useState(0);
+    const [SelectedMobile,setSelectedMobile]=useState(0);
+    const [loading,setloading]=useState(true);
+      const  [NAVIGATION,setNav] = useState([ {
+        segment: '',
+        title: 'Messages',
+        icon: <ChatIcon />,
+      },
+      {
+        segment: '/',
+        title: 'Home',
+        icon: <HolidayVillageIcon />,
+      },
     
+       
+      ]);
+      const  [messages,setmessages] = useState([ 
        
       ]);
     
 
-    useEffect(()=>{
-        try {
-          async function findandDisplayAllConnectedUsers(token,name){
-     
-            try {
-              const response = await axios.get('https://chatappb-xxt1.onrender.com/online',{ headers:{
-                Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
-              }});
-             let arr=[]
-            response.data.map(item=>{
-            console.log(u)
-          arr.push( {
-            segment:`dashboard/${name}/${item.username}`,
-            title:item.username,
-            icon: <Avatar alt={item.username} src="/static/images/avatar/2.jpg" sx={{width:27,height:27}} />,
-            
-          })
-
-            })
-            setNav([...arr
-               
-             
-            ])
-            
-            } catch (error) {
-              console.error('Error fetching users:', error);
-            }
-          
-      
-          
-    }
   
-
-             Axios.get('/auth/'+user).then(d=>{
-             
-
-                setu(d.data);
-                console.log(d.data)
-                findandDisplayAllConnectedUsers(cookie.get('token'),d.data.name);
-            
-    
-                
-             })
-
-
-
-
-
-        } catch (e) {
-
-            window.location.pathname='/login'
-
-        }
-    },[])
 
   
    
@@ -108,8 +72,73 @@ export default function Dashboard(){
         height,
         content: '" "',
       }));
-    
+      useEffect(()=>{
+        
+        try {
+          Axios.get('/auth/'+user).then(d=>{
+             
+
+            setu(d.data);
+            console.log(d.data)
+            
+            findandDisplayAllConnectedUsers(cookie.get('token'),d.data.name);
+            setloading(false)
+
+            
+         })
+
+          async function findandDisplayAllConnectedUsers(token,name){
+     
+            try {
+              const response = await axios.get('https://chatappb-xxt1.onrender.com/online',{ headers:{
+                Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
+              }});
+             let arr=[]
+             let filtredUsers =  response.data.filter((i)=>i.username!=name)
+             filtredUsers.map((item,i)=>{
+           
+          arr.push( {
+           
+           
+            id: i,
+            primary: item.username,
+            secondary: `${name}/${item.username}`,
+            person: item.username,
+          
+            
+          })
+
+            })
+            setmessages([...arr
+               
+             
+            ])
+            
+            } catch (error) {
+              console.error('Error fetching users:', error);
+            }
+          
       
+          
+    }
+  
+
+
+
+
+
+
+        } catch (e) {
+
+            window.location.pathname='/login'
+
+        }
+    },[])
+    const drawerWidth = 240;
+
+    
+  
+  
     return(<AppProvider
         navigation={NAVIGATION}
         branding={{
@@ -124,31 +153,100 @@ export default function Dashboard(){
         }}
        
       >
-        <DashboardLayout>
-            { window.location.pathname==="/dashboard"?
-       <div style={{display:"flex",flexFlow:"column wrap",width:"100%"}}> 
-      
-       <div style={{display:"flex",padding:"30px",width:"100%"}}>
-       <div>
-    <h3>Hello Welcome to chatapp</h3> 
-     <div style={{display:"flex", gap:"30px",marginTop:"30px",flexFlow:"row wrap",width:"100%"}}>
-         <Avatar alt={u.name} src="/static/images/avatar/2.jpg" style={{height:'71px',width:'71px'}} />
-                
-                <div><h4>{u.name}</h4><span>this is your Profile</span>
-                  </div>
-                 
+        <DashboardLayout defaultSidebarCollapsed>
+            <div style={{
+              height:"100%",display:"flex"
+            }}>
+       
+            <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth,position:"relative",height:"90vh" },
+           
+          }}
+          style={{}}
+          open
+        >
+          {loading?<div
+                  style={{
+                      display:"flex",
+                      alignItems:"center",
+                      justifyContent:"center",
+                      height:"100%"
+                  }}
+                  ><Loading ></Loading></div>: <List sx={{ mb: 2 }}>
+           <ListItemButton
+           
+           >
+                <ListItemAvatar>
+                <Badge color="success" variant="dot">
+                <Avatar alt={u.name}  />
+</Badge>
                   
-                   </div>
-                  <hr ></hr>
-                
+                </ListItemAvatar>
+                <ListItemText primary={u.name} secondary={'Click to open  Settings'} />
+              </ListItemButton>
+     
+           <hr ></hr>
+           <ListItemText primary="Other Users" sx={{px:2}} />
+          {messages.map(({ id, primary, secondary, person }) => (
+            <React.Fragment key={id}>
+            <Link to={secondary} style={{textDecoration:"none"}}> <ListItemButton
+                 onClick={() => setSelected(id)}
+                 sx={{
+                   bgcolor: Selected === id ? "rgba(211, 211, 211, 0.17)" :""}}
+            >
+                <ListItemAvatar>
+                <Badge color="success" variant="dot">
+                <Avatar alt={person} src={person} />
+</Badge>
+                 
+                </ListItemAvatar>
+                <ListItemText primary={primary} secondary={secondary} />
+              </ListItemButton></Link> 
+            </React.Fragment>
+          ))}
+        </List>}
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width:"70px",position:"relative",height:"100%",overflowX:"hidden" },
+           
+          }}
+          style={{}}
+          open
+        >
+        {  loading? <div
+                style={{
+                    display:"flex",
+                    alignItems:"center",
+                    justifyContent:"center",
+                    height:"100%"
+                }}
+                ><Loading ></Loading></div>: <List sx={{ mb: 2 }}>
+          {messages.map(({ id, primary, secondary, person }) => (
+            <React.Fragment key={id}>
+            <Link to={secondary}>  <ListItemButton
+                 onClick={() => setSelectedMobile(id)}
+                 sx={{
+                   bgcolor: SelectedMobile === id ? "rgba(211, 211, 211, 0.17)" :""}}
+            >
+                <ListItemAvatar>
+                <Badge color="success" variant="dot">
+                <Avatar alt={person} src={person} />
+</Badge>
+            
+                </ListItemAvatar>
+              </ListItemButton></Link> 
+            </React.Fragment>
+          ))}
+        </List>}
+        </Drawer>
+       <Outlet></Outlet>
        </div>
-    
-       
-       </div>
-       
-       </div>
-       :<Outlet></Outlet>}
-        
         </DashboardLayout>
       </AppProvider>)
 //     <div className="dparent">

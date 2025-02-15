@@ -12,7 +12,9 @@ export default function Landing() {
         backgroundColor: "#222",
         color: "#fff",
         padding: "20px 0",
-        marginTop:"20px"
+        marginTop:"70px",
+
+     
       };
     
       const containerStyles = {
@@ -110,46 +112,10 @@ CHATAPP
 
 </div>
 
-<div style={{height: 'auto', width: '100%', position: 'relative'}}>
-
-</div>
   
  </div>
-    <div id="about" style={{display:"flex",
-alignItems:"center",
-justifyContent:"center",
-        padding:"30px",
-        gap:"15px",
-        flexFlow:"row wrap",
-         height:"550px"
-    }} >
-    
-    <div>
-    <Typography variant="h3" component="h3" style={{color:darklight?'#B2A5FF':'#493D9E'}} >
-About us
-</Typography>
-<hr style={{backgroundColor:"black",marginTop:"0",width:"30%",height:"2px"}}></hr>
-<Typography  style={{maxWidth:"800px"}} >
-Lorem Ipsum is simply dummy text of the 
-printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-</Typography>
-    </div>
- 
 
-
-    
-
-
-    <div></div>
-
-      
-<SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.4)" >
-<i class="fa fa-lock" style={{color:"white"}}></i>
-<h2 style={{color:"white"}}>Created by</h2>
-<p style={{color:"white"}}>Bouhaik anes mohammed el amine</p>
-< Button variant='contained' sx={{backgroundColor:darklight?'#B2A5FF':'#493D9E'}}>Lets Connect</Button>
-</SpotlightCard>
-</div>
+  
 <footer id='contact' style={footerStyles}>
       <div style={containerStyles}>
         {/* About Section */}

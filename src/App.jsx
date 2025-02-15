@@ -12,8 +12,6 @@ import Rauth from "./pages/website/auth/rauth";
 import Err403 from "./pages/website/auth/403";
 import Err404 from "./pages/website/auth/404";
 import Logincallback from "./pages/website/auth/logincallback";
-
-import Landing from "./pages/website/main pages/Landing";
 import { Axios } from "./api/axios";
 import Cookie from 'cookie-universal'
 import { menu } from "./contex/hamburger";
@@ -70,15 +68,13 @@ function App() {
 <Login></Login>}></Route>
 <Route path="signup" element={
 <Register></Register>}></Route></Route>
-<Route path="/" element={
-  <Landing></Landing>}></Route>
 
 <Route path="/auth/google/callback" element={
 <Redirect></Redirect>}></Route>
 <Route path="/*" element={
 <Err404></Err404>}></Route>
 <Route element={<Rauth allowedRole={[ 'USER', 'ADMIN']}></Rauth>}>
-<Route path="dashboard" element={
+<Route path="/" element={
 <Dashboard></Dashboard>}>
 <Route path="403" element={
 <Err403></Err403>}></Route>
