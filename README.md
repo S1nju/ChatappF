@@ -1,4 +1,4 @@
-# ER to db 
+#chat app
 
 This project was created by me using mui and react flow and react bits 
 
