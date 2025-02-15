@@ -61,7 +61,7 @@ gap:"20px",
     width:"100%"
   }}>
     <Avatar alt={u.name} src={'/'} /><div><h6>{u.name}</h6>
-    <p style={{color:"grey",margin:0}}>welcome to your profile {u.name}</p>
+    <p style={{color:"grey",margin:0}}>welcome {u.name}</p>
     </div>
 
     </div>
