@@ -19,6 +19,7 @@ import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import Message from "./pages/dashboard/Message";
 import { user } from "./api/api";
 import Profile from "./pages/dashboard/Profile";
+import Call from "./pages/dashboard/Call";
 
 
 
@@ -28,10 +29,14 @@ import Profile from "./pages/dashboard/Profile";
 function App() {
   const cookie = Cookie()
  
-        
+     
   let {darklight,setdark} = useContext(menu);
   const [ u,setu]=useState({})
-
+  const [callStatus,setCallaStatus]=useState({});
+  const [localStream,setLocalStream]=useState(null);
+  const [remoteStream,setRemoteStream]=useState(null);
+  const[peerConnection,setPeerConnection]=useState(null);
+  const [offerData,setOfferData]=useState(null);
   useEffect(()=>{
         
         
@@ -92,8 +97,24 @@ function App() {
 <Route path="403" element={
 <Err403></Err403>}></Route>
 <Route element={<Rauth allowedRole={['USER','ADMIN']}></Rauth>}>
+<Route path={`call/${u.name}/:targetname`} element={
+<Call   
+callStatus={callStatus}
+updateCallstatus={setCallaStatus}
+localStream={localStream}
+setLocalStream={setLocalStream}
+remoteStream={remoteStream}
+setRemoteStream={setRemoteStream}
+peerConnection={peerConnection}
+userName={u.name}
+offerData={offerData}
+></Call>}>
+</Route>
 <Route path={`${u.name}/:targetname`} element={
 <Message></Message>}>
+
+
+
 
 
 </Route>

@@ -2,7 +2,7 @@ import { Avatar, Button, IconButton, Paper, TextField, Typography } from '@mui/m
 import axios from 'axios';
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import Cookie from 'cookie-universal';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import { Axios } from '../../api/axios';
@@ -10,6 +10,8 @@ import { user } from '../../api/api';
 import { menu } from '../../contex/hamburger';
 import SendIcon from '@mui/icons-material/Send';
 import Loading from '../loading/loading';
+import CallIcon from '@mui/icons-material/Call';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import useWebSocket from './wsCustomhook';
 export default function Message() {
   const cookie = Cookie();
@@ -20,6 +22,7 @@ export default function Message() {
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
   const messagesEndRef = useRef(null);
+
 
  function handleMessagerecived(msg){
 
@@ -80,10 +83,19 @@ client.publish({
       <Avatar alt={targetname} src="/static/images/avatar/2.jpg" style={{width:"35px",height:"35px"}} />
 
               
- 
+ <div style={{ display: 'flex',justifyContent:"space-between",width:"100%" }}>
         <div>
           <span>{targetname}</span>
           <span style={{ color: 'grey', display: 'block', fontSize: '9px' }}>{"ONLINE"}</span>
+          
+        </div>
+        <div>
+        <Link to={`/call/${name}/${targetname}`}  > <IconButton ><CallIcon /></IconButton></Link>
+        <IconButton >          <MoreVertIcon /></IconButton>
+</div>
+        
+
+     
         </div>
       </div>
       
