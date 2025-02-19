@@ -19,6 +19,7 @@ export default function Call(props) {
     let {targetname}=useParams();
     const myVideo = useRef();
     const connectionRef = useRef();
+    const userVideo = useRef();
 
     useEffect(() => {
         if (client ) {
@@ -45,7 +46,10 @@ export default function Call(props) {
                             }),
                         });
                     });
-    
+                    peer.on("stream", (remoteStream) => {
+                        console.log("📡 Caller received remote stream");
+                        userVideo.current.srcObject = remoteStream;
+                    });
                     connectionRef.current = peer;
                 })
                 .catch((err) => console.error("Error accessing media devices:", err));
