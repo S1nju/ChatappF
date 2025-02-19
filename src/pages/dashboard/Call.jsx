@@ -41,7 +41,7 @@ export default function Call(props) {
                                 type: "offer",
                                 senderid: props.userName,  // Sender's username or ID
                                 recid: targetname,    // Receiver's username or ID
-                                sdp: data,                 // Actual SDP offer
+                                sdp: data.sdp,                 // Actual SDP offer
                             }),
                         });
                     });

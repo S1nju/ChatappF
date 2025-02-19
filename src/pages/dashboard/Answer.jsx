@@ -17,12 +17,13 @@ export default function Answer(props) {
     let{client}=useWebSocket(`/user/topic`)
     console.log(callerinfo)
     const navigate=useNavigate();
- 
+   const myVideo = useRef();
     const userVideo = useRef();
     const connectionRef = useRef();
+    
     const answerCall = () => {
         setCallAccepted(true);
-    
+  
         const peer = new Peer({ initiator: false, trickle: false, stream });
     
         peer.on("signal", (data) => {
@@ -34,7 +35,7 @@ export default function Answer(props) {
                         type: "answer",
                         senderid: props.callStatus.recid,
                         recid: props.callStatus.senderid,
-                        sdp: data, // WebRTC SDP answer
+                        sdp: data.sdp, // WebRTC SDP answer
                     }),
                 });
             } else {
@@ -43,7 +44,13 @@ export default function Answer(props) {
         });
     
         peer.on("stream", (currentStream) => {
-            userVideo.current.srcObject = currentStream;
+            if (userVideo.current) {
+                console.log(currentStream)
+                userVideo.current.srcObject = currentStream;
+            } else {
+                console.error("❌ userVideo ref is not set!");
+            }
+        
         });
     
         peer.signal(props.callStatus); // Signal the offer received
@@ -58,22 +65,23 @@ export default function Answer(props) {
    
 
 <>
+
+{joined? <div> <video playsInline muted ref={myVideo} autoPlay width="200" /><video playsInline muted ref={userVideo} autoPlay width="200" /></div>:<>
 <div
  style={{display:"flex",alignItems:"center"
 
     ,justifyContent:'center',flexFlow:"column ",gap:"25px"
 }}
 >
-
     <Avatar alt={props.callStatus.senderid} src='./ddd' style={{width:"80px",height:"80px"}}></Avatar>
     <h5>{props.callStatus.senderid} is calling ...</h5>
     </div>
     <div style={{display:"flex",gap:"50px"}}>
       
-    <Link to={`/${props.userName}/${props.callStatus.senderid}`} style={{textDecoration:"none"}} >   <IconButton color='error' size="large" ><PhoneDisabledIcon /></IconButton></Link>
-        <Link to={`/call/${props.userName}/${props.callStatus.senderid}`} style={{textDecoration:"none"}} >   <IconButton color='success' size="large" edge="end" ><PhoneEnabledIcon /></IconButton></Link>
-  
-    </div>
+    <Link to={`/${props.userName}/${props.callStatus.senderid}`} style={{textDecoration:"none"}} >   <IconButton color='error' size="large"   ><PhoneDisabledIcon /></IconButton></Link>
+          <IconButton color='success' size="large" edge="end"  onClick={()=>{setJoined(true);answerCall();}}><PhoneEnabledIcon /></IconButton>
+        </div>
+    </>}
 </>
 
 
