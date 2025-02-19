@@ -43,7 +43,12 @@ const useWebSocket = (topic, onMessageReceived) => {
         setIsConnected((prev) => {
             return true;
           });
-
+          clientInstance.subscribe(`/user/${userInfo.name}/queue/webrtc`, (message) => {
+            console.log(JSON.parse(message.body))
+            console.log(JSON.parse("djvnjdfnvjf"))
+            const signal = JSON.parse(message.body);
+      
+        });
 
         clientInstance.subscribe(`/user/${userInfo.name}/queue/messages`, (message) => {
           const msg = JSON.parse(message.body);
