@@ -24,8 +24,8 @@ export default function Call(props) {
             destination: "/app/webrtc",
             body: JSON.stringify({
                 type: "offer",
-                senderId: props.userName,
-                receiverId: targetname,
+                senderid: props.userName,
+                recid: targetname,
                 sdp: "offer"
             })
         });}

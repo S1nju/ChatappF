@@ -45,7 +45,7 @@ const useWebSocket = (topic, onMessageReceived) => {
           });
           clientInstance.subscribe(`/user/${userInfo.name}/queue/webrtc`, (message) => {
             console.log(JSON.parse(message.body))
-            console.log(JSON.parse("djvnjdfnvjf"))
+      
             const signal = JSON.parse(message.body);
       
         });
