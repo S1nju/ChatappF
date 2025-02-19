@@ -21,6 +21,7 @@
     "axios": "^1.7.5",
     "bootstrap": "^5.3.2",
     "cookie-universal": "^2.2.2",
+    "crypto-browserify": "^3.12.1",
     "framer-motion": "^11.3.24",
     "gsap": "^3.12.5",
     "react": "^19.0.0",
@@ -30,8 +31,10 @@
     "react-scripts": "5.0.1",
     "react-wavify": "^1.11.1",
     "sass": "^1.83.4",
+    "simple-peer": "^9.11.1",
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.6.1",
+    "stream-browserify": "^3.0.0",
     "styled-components": "^6.1.14",
     "web-vitals": "^2.1.4"
   },

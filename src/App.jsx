@@ -1,9 +1,9 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Login from "./pages/website/auth/login";
 import Redirect from "./pages/website/auth/googlecallback";
 import Register from "./pages/website/auth/register";
 import './assets/all.min.css'
-import { useContext, useEffect,useState } from "react";
+import { useContext, useEffect,useRef,useState } from "react";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Dashboard from "./pages/dashboard/dashboard";
@@ -20,6 +20,8 @@ import Message from "./pages/dashboard/Message";
 import { user } from "./api/api";
 import Profile from "./pages/dashboard/Profile";
 import Call from "./pages/dashboard/Call";
+import Answer from "./pages/dashboard/Answer";
+import useWebSocket from "./pages/dashboard/wsCustomhook";
 
 
 
@@ -28,11 +30,22 @@ import Call from "./pages/dashboard/Call";
 
 function App() {
   const cookie = Cookie()
- 
-     
+  
+  const [callStatus,setCallaStatus]=useState({});
+  let navigate = useNavigate()
+  function mssg(msg){setCallaStatus(msg)
+    console.log(msg)
+    
+    
+    navigate('/call')
+
+  }
+   
+      
+         let{client}=useWebSocket(`/user/topic`,()=>{},mssg)
   let {darklight,setdark} = useContext(menu);
   const [ u,setu]=useState({})
-  const [callStatus,setCallaStatus]=useState({});
+ 
   const [localStream,setLocalStream]=useState(null);
   const [remoteStream,setRemoteStream]=useState(null);
   const[peerConnection,setPeerConnection]=useState(null);
@@ -92,8 +105,22 @@ function App() {
 <Route path="/*" element={
 <Err404></Err404>}></Route>
 <Route element={<Rauth allowedRole={[ 'USER', 'ADMIN']}></Rauth>}>
+<Route path="/call" element={
+  <Answer
+  
+  callStatus={callStatus}
+updateCallstatus={setCallaStatus}
+localStream={localStream}
+setLocalStream={setLocalStream}
+remoteStream={remoteStream}
+setRemoteStream={setRemoteStream}
+peerConnection={peerConnection}
+userName={u.name}
+offerData={offerData}
+  ></Answer>}></Route>
 <Route path="/" element={
 <Dashboard></Dashboard>}>
+
 <Route path="403" element={
 <Err403></Err403>}></Route>
 <Route element={<Rauth allowedRole={['USER','ADMIN']}></Rauth>}>

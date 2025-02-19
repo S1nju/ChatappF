@@ -1,29 +1,61 @@
 import { Avatar, IconButton } from '@mui/material';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import useWebSocket from './wsCustomhook';
 import MicOffIcon from '@mui/icons-material/MicOff';
 import PhoneDisabledIcon from '@mui/icons-material/PhoneDisabled';
 import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+import Peer from 'simple-peer'
 export default function Answer(props) {
-    const [typeofCall,setTypeOfcall]=useState(null);
+    const [CallAccepted,setCallAccepted]=useState(false);
     const [joined,setJoined]=useState(false);
-    const [availableCalls,setAvailableCalls]=useState([]);
-    let handleCallArrived=(msg)=>{
-        setAvailableCalls(prev=>prev.push(msg));
-
-    }
+    const [callerinfo,setcallerinfo]=useState();
+    useEffect(()=>{
+        setcallerinfo(props.callStatus.senderid)
+    },[props])
+    let{client}=useWebSocket(`/user/topic`)
+    console.log(callerinfo)
     const navigate=useNavigate();
-    let {targetname}=useParams();
-    let{client}=useWebSocket(`/user/topic`,handleCallArrived)
+ 
+    const userVideo = useRef();
+    const connectionRef = useRef();
+    const answerCall = () => {
+        setCallAccepted(true);
+    
+        const peer = new Peer({ initiator: false, trickle: false, stream });
+    
+        peer.on("signal", (data) => {
+            if (client) {
+                console.log("Sending answer signal:", data);
+                client.publish({
+                    destination: "/app/webrtc",
+                    body: JSON.stringify({
+                        type: "answer",
+                        senderid: props.callStatus.recid,
+                        recid: props.callStatus.senderid,
+                        sdp: data, // WebRTC SDP answer
+                    }),
+                });
+            } else {
+                console.error("WebSocket not connected!");
+            }
+        });
+    
+        peer.on("stream", (currentStream) => {
+            userVideo.current.srcObject = currentStream;
+        });
+    
+        peer.signal(props.callStatus); // Signal the offer received
+        connectionRef.current = peer;
+    };
 
   return (
-    <div style={{position:"absolute",zIndex:10000,width:'100%',height:"100%",backgroundColor:"black",opacity:"0.95",display:"flex",alignItems:"center"
+    <div style={{position:"absolute",zIndex:10000,width:'100dvw',height:"100dvh",opacity:"0.95",display:"flex",alignItems:"center"
 
         ,flexFlow:"column",justifyContent:"space-around"
     }}>
-        {availableCalls.map(i=>{
+   
 
 <>
 <div
@@ -33,19 +65,19 @@ export default function Answer(props) {
 }}
 >
 
-    <Avatar alt={i.senderid} src='./ddd'></Avatar>
-    <h5>{i.senderid} is calling ...</h5>
+    <Avatar alt={props.callStatus.senderid} src='./ddd' style={{width:"80px",height:"80px"}}></Avatar>
+    <h5>{props.callStatus.senderid} is calling ...</h5>
     </div>
-    <div>
+    <div style={{display:"flex",gap:"50px"}}>
       
-       
-        <Link to={`/call/${props.userName}/${targetname}`} style={{textDecoration:"none"}} >   <IconButton color='succses' ><PhoneEnabledIcon /></IconButton></Link>
-    <Link to={`/${props.userName}/${targetname}`} style={{textDecoration:"none"}} >   <IconButton color='error' ><PhoneDisabledIcon /></IconButton></Link>
+    <Link to={`/${props.userName}/${props.callStatus.senderid}`} style={{textDecoration:"none"}} >   <IconButton color='error' size="large" ><PhoneDisabledIcon /></IconButton></Link>
+        <Link to={`/call/${props.userName}/${props.callStatus.senderid}`} style={{textDecoration:"none"}} >   <IconButton color='success' size="large" edge="end" ><PhoneEnabledIcon /></IconButton></Link>
+  
     </div>
 </>
 
 
-        })}
+        
 
     </div>
    
