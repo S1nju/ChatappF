@@ -23,8 +23,11 @@ export default function Answer(props) {
     
     const answerCall = () => {
         setCallAccepted(true);
-  
-        const peer = new Peer({ initiator: false, trickle: false, stream });
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        .then((currentStream) => {
+          
+            myVideo.current.srcObject = currentStream;
+        const peer = new Peer({ initiator: false, trickle: false, stream});
     
         peer.on("signal", (data) => {
             if (client) {
@@ -44,17 +47,22 @@ export default function Answer(props) {
         });
     
         peer.on("stream", (currentStream) => {
+            console.log("📡 Received remote stream:", currentStream);
+
             if (userVideo.current) {
-                console.log(currentStream)
-                userVideo.current.srcObject = currentStream;
-            } else {
-                console.error("❌ userVideo ref is not set!");
+                userVideo.current.srcObject = null;  // Force repaint
+                setTimeout(() => {
+                    userVideo.current.srcObject = currentStream;
+                }, 100);
             }
         
         });
     
         peer.signal(props.callStatus); // Signal the offer received
         connectionRef.current = peer;
+    })
+    
+      
     };
 
   return (
@@ -66,7 +74,7 @@ export default function Answer(props) {
 
 <>
 
-{joined? <div> <video playsInline muted ref={myVideo} autoPlay width="200" /><video playsInline muted ref={userVideo} autoPlay width="200" /></div>:<>
+{joined? <div> <video playsInline muted ref={myVideo} autoPlay width="200" /><video playsInline muted ref={userVideo} autoPlay width="500" /></div>:<>
 <div
  style={{display:"flex",alignItems:"center"
 
