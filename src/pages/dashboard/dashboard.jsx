@@ -20,6 +20,7 @@ import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
 import { Padding } from "@mui/icons-material";
 import Loading from "../loading/loading";
 import useWebSocket from "./wsCustomhook";
+import Answer from "./Answer";
 export default function Dashboard(){
     const [u,setu]=useState("");
     const cookie = Cookie()
@@ -27,9 +28,11 @@ export default function Dashboard(){
     const [Selected,setSelected]=useState(0);
     const [SelectedMobile,setSelectedMobile]=useState(0);
     const [loading,setloading]=useState(true);
-    
-
-let{client}=useWebSocket(`/user/topic`,handleMessagerecived)
+    const [call,setCall]=useState(true);
+ function   handlecallrec(msg){
+  setCall(true)
+ }
+let{client}=useWebSocket(`/user/topic`,handleMessagerecived,handlecallrec)
       const  [NAVIGATION,setNav] = useState([ 
       {
         segment: '',
@@ -310,7 +313,7 @@ let{client}=useWebSocket(`/user/topic`,handleMessagerecived)
       </div>
       <h3>Welcome To Chat</h3>
       <p style={{color:"grey"}}>Search for a user from the sidebar to start chatting</p>
-    </div>:  <Outlet></Outlet>}
+    </div>:call?<><Answer />  <Outlet></Outlet></>:<Outlet></Outlet>}
        </div>
         </DashboardLayout>
       </AppProvider>)

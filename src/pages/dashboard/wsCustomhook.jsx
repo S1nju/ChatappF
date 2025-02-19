@@ -4,7 +4,7 @@ import SockJS from "sockjs-client";
 import { Axios } from "../../api/axios";
 import { user } from "../../api/api";
 
-const useWebSocket = (topic, onMessageReceived) => {
+const useWebSocket = (topic, onMessageReceived,onCallrec) => {
   const clientRef = useRef(null);
   const [userInfo, setUserInfo] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -45,8 +45,9 @@ const useWebSocket = (topic, onMessageReceived) => {
           });
           clientInstance.subscribe(`/user/${userInfo.name}/queue/webrtc`, (message) => {
             console.log(JSON.parse(message.body))
-      
+          
             const signal = JSON.parse(message.body);
+            onCallrec(signal)
       
         });
 
