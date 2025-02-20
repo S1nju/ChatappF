@@ -35,7 +35,7 @@ export default function Call(props) {
     useEffect(() => {
         if (client ) {
             // Get user media (video & audio)
-            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            navigator.mediaDevices.getUserMedia({ video: false, audio: true })
                 .then((currentStream) => {
                     setStream(currentStream);
                     myVideo.current.srcObject = currentStream;
@@ -49,7 +49,22 @@ export default function Call(props) {
                             iceServers: [
                                 { urls: "stun:stun1.l.google.com:19302" },
                                 { urls: "stun:stun2.l.google.com:19302" },
-                                { urls: "stun:stun3.l.google.com:19302" }, // ✅ Public STUN server for NAT traversal
+                                { urls: "stun:stun3.l.google.com:19302" },
+                                {
+                                    url: 'turn:numb.viagenie.ca',
+                                    credential: 'muazkh',
+                                    username: 'webrtc@live.com'
+                                },
+                                {
+                                    url: 'turn:192.158.29.39:3478?transport=udp',
+                                    credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+                                    username: '28224511:1379330808'
+                                },
+                                {
+                                    url: 'turn:192.158.29.39:3478?transport=tcp',
+                                    credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+                                    username: '28224511:1379330808'
+                                } // ✅ Public STUN server for NAT traversal
                             ],
                         },
                     });
@@ -61,7 +76,7 @@ export default function Call(props) {
                         client.publish({
                             destination: "/app/webrtc",
                             body: JSON.stringify({
-                                type: "offer",
+                                type: data.type,
                                 senderid: props.userName,  // Sender's username or ID
                                 recid: targetname,         // Receiver's username or ID
                                 sdp: data.sdp,  
