@@ -108,7 +108,7 @@ export default function Answer(props) {
         <div style={{ position: 'absolute', zIndex: 10000, width: '100dvw', height: '100dvh', opacity: '0.95', display: 'flex', alignItems: 'center', flexFlow: 'column', justifyContent: 'space-around' }}>
             {joined ? (
                 <div>
-                    <video playsInline ref={userVideo} autoPlay width="500" style={{ background: 'black' }} />
+                   <video playsInline muted controls ref={userVideo} autoPlay width="500" style={{ background: 'black' }} />
                     <video playsInline muted ref={myVideo} autoPlay width="100" height="100" />
                 </div>
             ) : (
