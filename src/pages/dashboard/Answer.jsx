@@ -136,7 +136,7 @@ export default function Answer(props) {
         >
             {joined ? (
                 <div>
-                    <video playsInline muted controls ref={userVideo} autoPlay width="500" style={{ background: 'black' }} />
+                    <video playsInline muted  ref={userVideo} autoPlay width="500" style={{ background: 'black' }} />
                     <video playsInline muted ref={myVideo} autoPlay width="100" height="100" />
                 </div>
             ) : (
