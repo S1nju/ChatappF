@@ -43,7 +43,7 @@ export default function Call(props) {
                     
                     const peer = new Peer({ 
                         initiator: true, 
-                        trickle: true,  // ✅ Allow ICE candidates to be sent immediately
+                        trickle: false,  // ✅ Allow ICE candidates to be sent immediately
                         stream: currentStream, 
                         config: {
                             iceServers: [
@@ -72,13 +72,7 @@ export default function Call(props) {
                     });
                     
                     // ✅ Send ICE candidates separately
-                    peer.on('iceConnectionStateChange', (state) => {
-                        console.log('ICE connection state changed:', state);
-                        if (state === 'failed') {
-                            console.error("ICE connection failed. Restarting ICE...");
-                            peer.restartIce();
-                        }
-                    });
+           
                     
                     // ✅ Receive and set remote media stream
                     peer.on("stream", (remoteStream) => {

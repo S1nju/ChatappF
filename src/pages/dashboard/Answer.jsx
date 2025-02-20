@@ -19,21 +19,6 @@ export default function Answer(props) {
     const connectionRef = useRef();
     const [stream, setStream] = useState(null);
 
-    // Effect to update the video element when remote stream state changes.
-    useEffect(() => {
-        if (remoteMediaStream && userVideo.current) {
-            setTimeout(() => {
-                userVideo.current.srcObject = remoteMediaStream;
-                userVideo.current.play()
-                    .then(() => {
-                        console.log("Remote video playing via useEffect");
-                    })
-                    .catch((error) => {
-                        console.error("Error playing remote stream via useEffect:", error);
-                    });
-            }, 500);
-        }
-    }, [remoteMediaStream]);
 
     const answerCall = async () => {
         setCallAccepted(true);
@@ -48,13 +33,14 @@ export default function Answer(props) {
 
             const peer = new Peer({
                 initiator: false,
-                trickle: false,
+                trickle: false, // disable trickle ICE
                 stream: currentStream,
                 config: {
                     iceServers: [
                         { urls: "stun:stun1.l.google.com:19302" },
                         { urls: "stun:stun2.l.google.com:19302" },
                         { urls: "stun:stun3.l.google.com:19302" },
+                        // Add TURN servers if needed.
                     ],
                 },
             });
@@ -69,6 +55,7 @@ export default function Answer(props) {
                             senderid: props.callStatus.recid,
                             recid: props.callStatus.senderid,
                             sdp: data.sdp,
+                         
                         }),
                     });
                 } else {
@@ -101,9 +88,6 @@ export default function Answer(props) {
                 console.error('Peer error:', err);
             });
 
-            peer.on('iceConnectionStateChange', (state) => {
-                console.log('ICE connection state changed:', state);
-            });
 
             peer.on('connectionStateChange', (state) => {
                 console.log('Connection state changed:', state);
