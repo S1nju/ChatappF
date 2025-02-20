@@ -54,13 +54,6 @@ export default function Call(props) {
                         },
                     });
                     
-                    peer.on("connectionStateChange", () => {
-                        console.log("🔗 Peer Connection State:", peer.connectionState);
-                    });
-                    peer.on("iceConnectionStateChange", () => {
-                        console.log("🧊 ICE Connection State:", peer.iceConnectionState);
-                    });
-                    // ✅ Handle SDP offer and send via WebSockets
             
                     peer.on("signal", (data) => {
                  

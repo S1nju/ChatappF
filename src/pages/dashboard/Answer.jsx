@@ -63,6 +63,11 @@ export default function Answer(props) {
                 console.log('Received remote stream:', remoteStream);
                 if (remoteStream && userVideo.current) {
                     userVideo.current.srcObject = remoteStream;
+                    userVideo.current.onloadedmetadata = () => {
+                        userVideo.current.play().catch((error) => {
+                            console.error('Error playing remote stream:', error);
+                        });
+                    };
                 } else {
                     console.error('Remote stream or userVideo element is not available');
                 }
@@ -88,8 +93,8 @@ export default function Answer(props) {
         <div style={{ position: 'absolute', zIndex: 10000, width: '100dvw', height: '100dvh', opacity: '0.95', display: 'flex', alignItems: 'center', flexFlow: 'column', justifyContent: 'space-around' }}>
             {joined ? (
                 <div>
-                    <video autoPlay  ref={userVideo}  width="500" />
-                    <video autoPlay  muted ref={myVideo}  width="100" height="100" />
+                    <video playsInline ref={userVideo} autoPlay width="500" />
+                    <video playsInline muted ref={myVideo} autoPlay width="100" height="100" />
                 </div>
             ) : (
                 <>
