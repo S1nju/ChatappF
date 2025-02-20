@@ -35,7 +35,7 @@ export default function Call(props) {
     useEffect(() => {
         if (client ) {
             // Get user media (video & audio)
-            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
                 .then((currentStream) => {
                     setStream(currentStream);
                     myVideo.current.srcObject = currentStream;

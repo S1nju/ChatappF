@@ -24,7 +24,7 @@ export default function Answer(props) {
         setCallAccepted(true);
 
         try {
-            const currentStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            const currentStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
             setStream(currentStream);
             myVideo.current.srcObject = currentStream;
             myVideo.current.onloadedmetadata = () => {
