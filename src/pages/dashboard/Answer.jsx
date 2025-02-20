@@ -61,6 +61,7 @@ export default function Answer(props) {
 
             peer.on('stream', (remoteStream) => {
                 console.log('Received remote stream:', remoteStream);
+                console.log('Video tracks count:', remoteStream.getVideoTracks());
                 if (remoteStream && userVideo.current) {
                     userVideo.current.srcObject = remoteStream;
                     userVideo.current.onloadedmetadata = () => {
@@ -69,14 +70,6 @@ export default function Answer(props) {
                             console.error('Error playing remote stream:', error);
                         });
                     };
-                    // Check if the remote stream has video tracks
-                    if (remoteStream.getVideoTracks().length === 0) {
-                        console.error('No video tracks in the remote stream');
-                    } else {
-                        console.log('Video tracks available in the remote stream');
-                    }
-                } else {
-                    console.error('Remote stream or userVideo element is not available');
                 }
             });
 
