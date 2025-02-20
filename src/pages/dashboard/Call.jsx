@@ -5,17 +5,28 @@ import useWebSocket from './wsCustomhook';
 import MicOffIcon from '@mui/icons-material/MicOff';
 import PhoneDisabledIcon from '@mui/icons-material/PhoneDisabled';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
-import Peer from 'simple-peer'
+
+import Peer from 'simple-peer/simplepeer.min.js'; // Use the browser version
+
 export default function Call(props) {
     const [typeofCall,setTypeOfcall]=useState(null);
     const [Stream,setStream]=useState(null);
-    const [availableCalls,setAvailableCalls]=useState([]);
+    const [availableCalls,setAvailableCalls]=useState(false);
     let handleMessagerecived=(msg)=>{
         console.log(msg)
 
     }
     const navigate=useNavigate();
-    let{client}=useWebSocket(`/user/topic`)
+    function mssg(msg){
+        console.log(msg)
+        if(msg.type=='answer'){
+        
+            setAvailableCalls(true)}
+    
+      }
+       
+          
+             let{client}=useWebSocket(`/user/topic`,handleMessagerecived,mssg)
     let {targetname}=useParams();
     const myVideo = useRef();
     const connectionRef = useRef();
@@ -29,28 +40,61 @@ export default function Call(props) {
                     setStream(currentStream);
                     myVideo.current.srcObject = currentStream;
                     console.log(currentStream)
-                    // Create a WebRTC peer connection (initiator = true)
-                    const peer = new Peer({ initiator: true, trickle: false, stream: currentStream });
-    
-                    // When the peer generates an SDP offer, send it via WebSockets
+                    
+                    const peer = new Peer({ 
+                        initiator: true, 
+                        trickle: false,  // ✅ Allow ICE candidates to be sent immediately
+                        stream: currentStream, 
+                        config: {
+                            iceServers: [
+                                { urls: "stun:stun1.l.google.com:19302" },
+                                { urls: "stun:stun2.l.google.com:19302" },
+                                { urls: "stun:stun3.l.google.com:19302" }, // ✅ Public STUN server for NAT traversal
+                            ],
+                        },
+                    });
+                    
+                    peer.on("connectionStateChange", () => {
+                        console.log("🔗 Peer Connection State:", peer.connectionState);
+                    });
+                    peer.on("iceConnectionStateChange", () => {
+                        console.log("🧊 ICE Connection State:", peer.iceConnectionState);
+                    });
+                    // ✅ Handle SDP offer and send via WebSockets
+            
                     peer.on("signal", (data) => {
-                        console.log("Sending SDP Offer:", data);
-    
+                 
+                    
                         client.publish({
                             destination: "/app/webrtc",
                             body: JSON.stringify({
                                 type: "offer",
                                 senderid: props.userName,  // Sender's username or ID
-                                recid: targetname,    // Receiver's username or ID
-                                sdp: data.sdp,                 // Actual SDP offer
+                                recid: targetname,         // Receiver's username or ID
+                                sdp: data.sdp,  
+                               
                             }),
                         });
+                
                     });
+                    
+                    // ✅ Send ICE candidates separately
+                
+                    
+                    // ✅ Receive and set remote media stream
                     peer.on("stream", (remoteStream) => {
-                        console.log("📡 Caller received remote stream");
-                        userVideo.current.srcObject = remoteStream;
+                        console.log("📡 Caller received remote stream:", remoteStream);
+                      
+                            userVideo.current.srcObject = remoteStream;
+                            userVideo.current.onloadedmetadata = () => {
+                                console.log("✅ Playing remote stream");
+                                userVideo.current.play();
+                            };
+                        
                     });
+                    
                     connectionRef.current = peer;
+                    
                 })
                 .catch((err) => console.error("Error accessing media devices:", err));
         }
@@ -69,6 +113,7 @@ export default function Call(props) {
 
     <Avatar alt={props.userName} src='./ddd'></Avatar>
     <h5>you are calling ...</h5>
+    {availableCalls&& <video playsInline  ref={userVideo} autoPlay width="200" />}
     <video playsInline muted ref={myVideo} autoPlay width="200" />
     </div>
     <div>

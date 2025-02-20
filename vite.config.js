@@ -4,11 +4,13 @@ import path from 'path';
 export default defineConfig(() => {
   return {
     define: {
-      global: 'window',  // Fix missing `global`
+      global: 'window',
+      'process.env': {},  // Fix missing `global`
     },
     build: {
       outDir: 'build',
     },
+
     resolve: {
         alias: {
           'sockjs-client': 'sockjs-client/dist/sockjs.min.js',
