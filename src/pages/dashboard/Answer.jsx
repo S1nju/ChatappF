@@ -27,7 +27,7 @@ export default function Answer(props) {
             myVideo.current.srcObject = cc;
     
             const peer = new Peer({ initiator: false, trickle: false, stream: cc }); // ✅ Use `cc` directly
-    
+            console.log("📡 My Stream Before Peer:", stream);
             peer.on("signal", (data) => {
                 if (client) {
                     console.log("📡 Sending answer signal:", data);
@@ -48,10 +48,12 @@ export default function Answer(props) {
             peer.on("stream", (currentStream) => {
                 console.log("📡 Received remote stream:", currentStream);
                 setremoteStream(currentStream);
-                console.log("Tracks:", currentStream.getTracks());
+    
+                   
                         userVideo.current.srcObject = currentStream;
                         userVideo.current.play().catch((err) => console.error("❌ Video play error:", err));
-                        console.log("uservideo:", userVideo.current.srcObject);
+                    
+             
                 
             });
     
@@ -72,7 +74,7 @@ export default function Answer(props) {
 
 <>
 
-{joined? remoteStream!={}&& <div> <video playsInline muted ref={userVideo} srcObject={remoteStream} autoPlay width="200" /><video playsInline muted ref={myVideo} autoPlay width="500" /></div>:<>
+{joined? remoteStream!={}&& <div> <video playsInline muted ref={userVideo} autoPlay width="500" />  <video playsInline muted ref={myVideo} autoPlay width="100" height="100" /></div>:<>
 <div
  style={{display:"flex",alignItems:"center"
 
