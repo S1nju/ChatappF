@@ -79,9 +79,22 @@ export default function Answer(props) {
             peer.on('stream', (remoteStream) => {
                 console.log('Received remote stream:', remoteStream);
                 console.log('Video tracks count:', remoteStream.getVideoTracks().length);
-                // Clone the received stream to force a new reference.
-                const clonedStream = new MediaStream(remoteStream.getTracks());
-                setRemoteMediaStream(clonedStream);
+                if (userVideo.current) {
+                    userVideo.current.srcObject = remoteStream;
+                    // Optionally call load() to initialize playback.
+                    userVideo.current.load();
+                    userVideo.current.onloadedmetadata = () => {
+                        userVideo.current.play()
+                            .then(() => {
+                                console.log("Remote video playing directly.");
+                            })
+                            .catch((error) => {
+                                console.error("Error playing remote video:", error);
+                            });
+                    };
+                } else {
+                    console.error("userVideo reference is null");
+                }
             });
 
             peer.on('error', (err) => {
