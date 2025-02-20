@@ -17,6 +17,7 @@ export default function Answer(props) {
     const userVideo = useRef();
     const connectionRef = useRef();
     const[stream,setStream]=useState({});
+    const[remoteStream,setremoteStream]=useState({});
     const answerCall = async () => {
         setCallAccepted(true);
     
@@ -34,8 +35,8 @@ export default function Answer(props) {
                         destination: "/app/webrtc",
                         body: JSON.stringify({
                             type: "answer",
-                            senderid: props.callStatus.recid,
-                            recid: props.callStatus.senderid,
+                            senderid:props.callStatus.recid ,
+                            recid:props.callStatus.senderid ,
                             sdp: data.sdp,
                         }),
                     });
@@ -46,13 +47,12 @@ export default function Answer(props) {
     
             peer.on("stream", (currentStream) => {
                 console.log("📡 Received remote stream:", currentStream);
-    
-                if (userVideo.current) {
-                    userVideo.current.srcObject = null; // Force repaint
-                    setTimeout(() => {
+                setremoteStream(currentStream);
+                console.log("Tracks:", currentStream.getTracks());
                         userVideo.current.srcObject = currentStream;
-                    }, 100);
-                }
+                        userVideo.current.play().catch((err) => console.error("❌ Video play error:", err));
+                        console.log("uservideo:", userVideo.current.srcObject);
+                
             });
     
             peer.signal({ type: props.callStatus.type, sdp: props.callStatus.sdp }); // ✅ Signal the offer
@@ -72,7 +72,7 @@ export default function Answer(props) {
 
 <>
 
-{joined? stream!=null&& <div> <video playsInline muted ref={userVideo} autoPlay width="200" /><video playsInline muted ref={myVideo} autoPlay width="500" /></div>:<>
+{joined? remoteStream!={}&& <div> <video playsInline muted ref={userVideo} srcObject={remoteStream} autoPlay width="200" /><video playsInline muted ref={myVideo} autoPlay width="500" /></div>:<>
 <div
  style={{display:"flex",alignItems:"center"
 

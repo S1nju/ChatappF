@@ -35,9 +35,9 @@ function App() {
   let navigate = useNavigate()
   function mssg(msg){setCallaStatus(msg)
     console.log(msg)
+    if(msg.type=='offer'){
     
-    
-    navigate('/call')
+    navigate('/call')}
 
   }
    

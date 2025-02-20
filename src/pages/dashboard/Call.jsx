@@ -28,7 +28,7 @@ export default function Call(props) {
                 .then((currentStream) => {
                     setStream(currentStream);
                     myVideo.current.srcObject = currentStream;
-    
+                    console.log(currentStream)
                     // Create a WebRTC peer connection (initiator = true)
                     const peer = new Peer({ initiator: true, trickle: false, stream: currentStream });
     
