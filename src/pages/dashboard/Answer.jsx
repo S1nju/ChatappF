@@ -11,12 +11,29 @@ import Peer from 'simple-peer/simplepeer.min.js';
 export default function Answer(props) {
     const [CallAccepted, setCallAccepted] = useState(false);
     const [joined, setJoined] = useState(false);
+    const [remoteMediaStream, setRemoteMediaStream] = useState(null);
     const { client } = useWebSocket(`/user/topic`);
     const navigate = useNavigate();
     const myVideo = useRef();
     const userVideo = useRef();
     const connectionRef = useRef();
     const [stream, setStream] = useState(null);
+
+    // Effect to update the video element when remote stream state changes.
+    useEffect(() => {
+        if (remoteMediaStream && userVideo.current) {
+            setTimeout(() => {
+                userVideo.current.srcObject = remoteMediaStream;
+                userVideo.current.play()
+                    .then(() => {
+                        console.log("Remote video playing via useEffect");
+                    })
+                    .catch((error) => {
+                        console.error("Error playing remote stream via useEffect:", error);
+                    });
+            }, 500);
+        }
+    }, [remoteMediaStream]);
 
     const answerCall = async () => {
         setCallAccepted(true);
@@ -61,16 +78,10 @@ export default function Answer(props) {
 
             peer.on('stream', (remoteStream) => {
                 console.log('Received remote stream:', remoteStream);
-                console.log('Video tracks count:', remoteStream.getVideoTracks());
-                if (remoteStream && userVideo.current) {
-                    userVideo.current.srcObject = remoteStream;
-                    userVideo.current.onloadedmetadata = () => {
-                        console.log('Remote stream metadata loaded');
-                        userVideo.current.play().catch((error) => {
-                            console.error('Error playing remote stream:', error);
-                        });
-                    };
-                }
+                console.log('Video tracks count:', remoteStream.getVideoTracks().length);
+                // Instead of using onloadedmetadata on the element here,
+                // store the stream in state so the useEffect can assign it.
+                setRemoteMediaStream(remoteStream);
             });
 
             peer.on('error', (err) => {
@@ -98,16 +109,36 @@ export default function Answer(props) {
     };
 
     return (
-        <div style={{ position: 'absolute', zIndex: 10000, width: '100dvw', height: '100dvh', opacity: '0.95', display: 'flex', alignItems: 'center', flexFlow: 'column', justifyContent: 'space-around' }}>
+        <div
+            style={{
+                position: 'absolute',
+                zIndex: 10000,
+                width: '100dvw',
+                height: '100dvh',
+                opacity: '0.95',
+                display: 'flex',
+                alignItems: 'center',
+                flexFlow: 'column',
+                justifyContent: 'space-around'
+            }}
+        >
             {joined ? (
                 <div>
-                   <video playsInline muted controls ref={userVideo} autoPlay width="500" style={{ background: 'black' }} />
+                    <video playsInline muted controls ref={userVideo} autoPlay width="500" style={{ background: 'black' }} />
                     <video playsInline muted ref={myVideo} autoPlay width="100" height="100" />
                 </div>
             ) : (
                 <>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexFlow: 'column ', gap: '25px' }}>
-                        <Avatar alt={props.callStatus.senderid} src="./ddd" style={{ width: '80px', height: '80px' }}></Avatar>
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexFlow: 'column',
+                            gap: '25px'
+                        }}
+                    >
+                        <Avatar alt={props.callStatus.senderid} src="./ddd" style={{ width: '80px', height: '80px' }} />
                         <h5>{props.callStatus.senderid} is calling...</h5>
                     </div>
                     <div style={{ display: 'flex', gap: '50px' }}>
@@ -116,7 +147,16 @@ export default function Answer(props) {
                                 <PhoneDisabledIcon />
                             </IconButton>
                         </Link>
-                        <IconButton color="success" size="large" edge="end" onClick={() => { setJoined(true); answerCall(); }}>
+                        <IconButton
+                            color="success"
+                            size="large"
+                            edge="end"
+                            onClick={() => {
+                                console.log("Answer button clicked");
+                                setJoined(true);
+                                answerCall();
+                            }}
+                        >
                             <PhoneEnabledIcon />
                         </IconButton>
                     </div>
