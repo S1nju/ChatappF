@@ -79,9 +79,9 @@ export default function Answer(props) {
             peer.on('stream', (remoteStream) => {
                 console.log('Received remote stream:', remoteStream);
                 console.log('Video tracks count:', remoteStream.getVideoTracks().length);
-                // Instead of using onloadedmetadata on the element here,
-                // store the stream in state so the useEffect can assign it.
-                setRemoteMediaStream(remoteStream);
+                // Clone the received stream to force a new reference.
+                const clonedStream = new MediaStream(remoteStream.getTracks());
+                setRemoteMediaStream(clonedStream);
             });
 
             peer.on('error', (err) => {
