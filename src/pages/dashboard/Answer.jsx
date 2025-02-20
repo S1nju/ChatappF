@@ -64,10 +64,17 @@ export default function Answer(props) {
                 if (remoteStream && userVideo.current) {
                     userVideo.current.srcObject = remoteStream;
                     userVideo.current.onloadedmetadata = () => {
+                        console.log('Remote stream metadata loaded');
                         userVideo.current.play().catch((error) => {
                             console.error('Error playing remote stream:', error);
                         });
                     };
+                    // Check if the remote stream has video tracks
+                    if (remoteStream.getVideoTracks().length === 0) {
+                        console.error('No video tracks in the remote stream');
+                    } else {
+                        console.log('Video tracks available in the remote stream');
+                    }
                 } else {
                     console.error('Remote stream or userVideo element is not available');
                 }
@@ -75,6 +82,14 @@ export default function Answer(props) {
 
             peer.on('error', (err) => {
                 console.error('Peer error:', err);
+            });
+
+            peer.on('iceConnectionStateChange', (state) => {
+                console.log('ICE connection state changed:', state);
+            });
+
+            peer.on('connectionStateChange', (state) => {
+                console.log('Connection state changed:', state);
             });
 
             peer.signal({
@@ -93,7 +108,7 @@ export default function Answer(props) {
         <div style={{ position: 'absolute', zIndex: 10000, width: '100dvw', height: '100dvh', opacity: '0.95', display: 'flex', alignItems: 'center', flexFlow: 'column', justifyContent: 'space-around' }}>
             {joined ? (
                 <div>
-                    <video playsInline ref={userVideo} autoPlay width="500" />
+                    <video playsInline ref={userVideo} autoPlay width="500" style={{ background: 'black' }} />
                     <video playsInline muted ref={myVideo} autoPlay width="100" height="100" />
                 </div>
             ) : (
