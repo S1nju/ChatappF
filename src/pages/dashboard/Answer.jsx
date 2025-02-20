@@ -65,7 +65,7 @@ export default function Answer(props) {
 
             peer.on('stream', (remoteStream) => {
                 console.log('Received remote stream:', remoteStream);
-                console.log('Video tracks count:', remoteStream.getVideoTracks().length);
+                console.log('Video tracks count:', remoteStream.getVideoTracks());
                 if (userVideo.current) {
                     userVideo.current.srcObject = remoteStream;
                     // Optionally call load() to initialize playback.
