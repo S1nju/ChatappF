@@ -32,12 +32,17 @@ function App() {
   const cookie = Cookie()
   
   const [callStatus,setCallaStatus]=useState({});
+  const [offerData,setOfferData]=useState(null);
   let navigate = useNavigate()
-  function mssg(msg){setCallaStatus(msg)
+  function mssg(msg){   setCallaStatus(msg)
     console.log(msg)
     if(msg.type=='offer'){
-    
+   
     navigate('/call')}
+    if(msg.type=='answer'){
+      console.log("aw")
+      setOfferData(msg)
+      }
 
   }
    
@@ -49,7 +54,7 @@ function App() {
   const [localStream,setLocalStream]=useState(null);
   const [remoteStream,setRemoteStream]=useState(null);
   const[peerConnection,setPeerConnection]=useState(null);
-  const [offerData,setOfferData]=useState(null);
+ 
   useEffect(()=>{
         
         

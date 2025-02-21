@@ -111,12 +111,13 @@ export default function Answer(props) {
             peer.on('connectionStateChange', (state) => {
                 console.log('Connection state changed:', state);
             });
+if(props.callStatus.type=='offer'){
 
             peer.signal({
                 type: props.callStatus.type,
                 sdp: props.callStatus.sdp,
             });
-
+        }
             connectionRef.current = peer;
 
         } catch (error) {
@@ -139,9 +140,21 @@ export default function Answer(props) {
             }}
         >
             {joined ? (
-                <div>
-                    <video playsInline muted  ref={userVideo} autoPlay width="500" style={{ background: 'black' }} />
-                    <video playsInline muted ref={myVideo} autoPlay width="100" height="100" />
+                <div 
+                style={{display:"flex",alignItems:"center"
+
+                    ,justifyContent:'center',flexFlow:"column ",gap:"25px"
+                }}>
+<video playsInline  ref={userVideo} autoPlay style={{width:'80%',height:"300px"}} />
+    <video playsInline muted ref={myVideo} autoPlay width="100"style={{position:"absolute",left:30}} />
+    
+    <div>
+        <IconButton><MicOffIcon /></IconButton>
+       
+        <IconButton><VideocamOffIcon /></IconButton>
+       
+    <Link onClick={()=>myVideo.current.srcObject==null} to={`/`} style={{textDecoration:"none"}} >   <IconButton color='error' ><PhoneDisabledIcon /></IconButton></Link>
+    </div>
                 </div>
             ) : (
                 <>

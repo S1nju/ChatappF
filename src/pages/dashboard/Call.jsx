@@ -22,6 +22,13 @@ export default function Call(props) {
         if(msg.type=='answer'){
         
             setAvailableCalls(true)}
+            if(msg.type=='answer'){
+        
+                if (connectionRef.current) {
+                    console.log(msg)
+                    // Parse msg if needed, then pass it to the peer instance.
+                    connectionRef.current.signal({type:msg.type,sdp:msg.sdp});
+                }}
     
       }
        
@@ -105,7 +112,9 @@ export default function Call(props) {
                             };
                         
                     });
-                    
+                 
+             
+                  
                     connectionRef.current = peer;
                     
                 })
@@ -124,10 +133,11 @@ export default function Call(props) {
 }}
 >
 
-    <Avatar alt={props.userName} src='./ddd'></Avatar>
-    <h5>you are calling ...</h5>
-    {availableCalls&& <video playsInline  ref={userVideo} autoPlay width="200" />}
-    <video playsInline muted ref={myVideo} autoPlay width="200" />
+  
+    {availableCalls? <video playsInline  ref={userVideo} autoPlay style={{width:'80%',height:"300px"}} />:
+    <>  <Avatar alt={props.userName} src='./ddd'></Avatar>
+    <h5>you are calling ...</h5></>}
+    <video playsInline muted ref={myVideo} autoPlay width="100"style={{position:"absolute",left:30}} />
     </div>
     <div>
         <IconButton><MicOffIcon /></IconButton>
