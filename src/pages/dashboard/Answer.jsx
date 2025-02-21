@@ -24,7 +24,7 @@ export default function Answer(props) {
         setCallAccepted(true);
 
         try {
-            const currentStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+            const currentStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
             setStream(currentStream);
             myVideo.current.srcObject = currentStream;
             myVideo.current.onloadedmetadata = () => {
@@ -149,11 +149,11 @@ if(props.callStatus.type=='offer'){
     <video playsInline muted ref={myVideo} autoPlay width="100"style={{position:"absolute",left:30}} />
     
     <div>
-        <IconButton><MicOffIcon /></IconButton>
+        <IconButton onClick={()=>myVideo.current.mute()} ><MicOffIcon  /></IconButton>
        
-        <IconButton><VideocamOffIcon /></IconButton>
+        <IconButton onClick={()=>{myVideo.current.pause();}}><VideocamOffIcon  /></IconButton>
        
-    <Link onClick={()=>myVideo.current.srcObject==null} to={`/`} style={{textDecoration:"none"}} >   <IconButton color='error' ><PhoneDisabledIcon /></IconButton></Link>
+    <Link  onClick={()=>{connectionRef.current.destroy();myVideo.current.stop(); }} to={`/`} style={{textDecoration:"none"}} >   <IconButton color='error' ><PhoneDisabledIcon /></IconButton></Link>
     </div>
                 </div>
             ) : (

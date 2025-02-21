@@ -140,11 +140,11 @@ export default function Call(props) {
     <video playsInline muted ref={myVideo} autoPlay width="100"style={{position:"absolute",left:30}} />
     </div>
     <div>
-        <IconButton><MicOffIcon /></IconButton>
+    <IconButton ><MicOffIcon  /></IconButton>
        
-        <IconButton><VideocamOffIcon /></IconButton>
+       <IconButton onClick={()=>{myVideo.current.pause();}}><VideocamOffIcon  /></IconButton>
        
-    <Link onClick={()=>myVideo.current.srcObject==null} to={`/${props.userName}/${targetname}`} style={{textDecoration:"none"}} >   <IconButton color='error' ><PhoneDisabledIcon /></IconButton></Link>
+    <Link onClick={()=>{connectionRef.current.destroy();myVideo.current.stop();}} to={`/${props.userName}/${targetname}`} style={{textDecoration:"none"}} >   <IconButton color='error' ><PhoneDisabledIcon /></IconButton></Link>
     </div>
     </div>
    
