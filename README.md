@@ -1,4 +1,4 @@
-ERtoDB - ER Diagram to Database Converter
+ ERtoDB - ER Diagram to Database Converter
 
 Overview
 
@@ -60,8 +60,7 @@ Usage:
 Technologies Used
 	•	Frontend: React.js, Material-UI
 	•	Backend: Java (Spring Boot, Spring Data JPA)
-	•	Database Support: MySQL, PostgreSQL, SQLite, Oracle
-	•	Libraries: Mermaid.js (for ER visualization), Sequelize (for database ORM)
+	•	Libraries: react flow (for ER visualization)
 
 Future Enhancements
 	•	AI-powered ERD recommendations and auto-completion.
